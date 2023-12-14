@@ -44,4 +44,10 @@ module.exports = function (app) {
     app.post('/validarPedido', function (req, res) {
         app.app.controllers.usuarios.validarPedido(app, req, res)
     })
+    app.get('/editarSenha', function (req, res) {
+        app.app.controllers.usuarios.renderEditarSenha(app, req, res)
+    })
+    app.post('/salvarEditarSenha', function (req, res) {
+        app.app.controllers.usuarios.salvarEditarSenha(app, req, res)
+    })
 }

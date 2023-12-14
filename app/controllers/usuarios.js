@@ -200,9 +200,9 @@ module.exports.RenderCarrinho = async function (app, req, res) {
     let pedidoAberto = await modelAdmin.selectPedidoAberto(idUsuario)
     console.table(pedidoAberto)
 
-    if (pedidoAberto == undefined) {
+    if (pedidoAberto.length <= 0) {
         const erros = [{ msg: "Não existe o pedido" }]
-        res.render('/carrinho', { erros: erros })
+        res.render('usuarios/listaCarrinho', { erros: erros ,produtos:{},valorTotal:0})
         return
     }
 
@@ -307,14 +307,38 @@ module.exports.validarPedido = async function (app, req, res) {
         res.redirect('/')
         return
     }
-    const dados = req.body
+
     const conexao = app.config.conexao
     const modelAdmin = new app.app.models.modelAdmin(conexao)
     const idUsuario = req.session.id_usuario
-    const formaPagamento = dados.idFormaPagamento
-    let finalizarPedido = await modelAdmin.finalizarPedido(idUsuario,formaPagamento)
+    let pedidoAberto = await modelAdmin.selectPedidoAberto(idUsuario)
+    let valorTotal = 0
+    const idPedido = pedidoAberto[0].id_pedido
 
+    //const selectFormaPagamento = await modelAdmin.selectFormaPagamento()
+    const selectProdutosCarrinho = await modelAdmin.selectProdutosCarrinho(idPedido)
+    for (let i = 0; i < selectProdutosCarrinho.length; i++) {
+        selectProdutosCarrinho[i]["produto"] = await modelAdmin.ProdutosSelect(selectProdutosCarrinho[i].id_produto)
+        valorTotal += selectProdutosCarrinho[i].quantidade * selectProdutosCarrinho[i]["produto"][0].preco
+    }
     res.render('usuarios/menu', { erros: {}, usuario: {} })
+}
+
+module.exports.renderEditarSenha = async function (app, req, res) {
+    if(req.session.id_usuario == undefined){
+        res.redirect('/')
+        return
+    }
+    res.render('usuarios/editarSenha', { erros: {}})
+}
+
+module.exports.salvarEditarSenha = async function (app, req, res) {
+    const conexao = app.config.conexao
+    const modelUsuario = new app.app.models.modelUsuarios(conexao)
+    const idUsuario = req.session.id_usuario
+    const dados = req.body
+    const reuslt = await modelUsuario.salvarEditarSenha(dados,idUsuario)
+    res.render('usuarios/menu', { erros: {}})
 }
 
 

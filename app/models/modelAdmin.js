@@ -58,6 +58,7 @@ Admin.prototype.excluirProduto = function (dados,callback) {
 Admin.prototype.selectPedidoAberto = function(idUsuario){
     return new Promise((resolve,rejects)=>{
         this._conexao.query(`select * from pedido where id_status=1 and id_usuario=${idUsuario}`,function(error,result){
+            console.log(error)
             resolve(result)
         })
     })
@@ -147,10 +148,9 @@ Admin.prototype.excluirCarrinho = function(idPedido,idProduto){
     })
 }
 
-Admin.prototype.finalizarPedido = function(idUsuario,formaPagamento){
+Admin.prototype.finalizarPedido = function(idPedido,formaPagamento){
     return new Promise((resolve,rejects)=>{
-        this._conexao.query(`update pedido set id_usuario = ${idUsuario}, id_status = 2, id_forma_pagamento = ${formaPagamento}   `,function(error,result){
-            console.log(error)
+        this._conexao.query(`update pedido set id_status = 2, id_forma_pagamento = ${formaPagamento} where id_pedido = ${idPedido} `,function(error,result){
             resolve(result)
         })
     })
@@ -166,13 +166,39 @@ Admin.prototype.selectFormaPagamento = function(idUsuario,formaPagamento){
 }
 
 Admin.prototype.listaPedidosAbertos = function (callback) {
-    this._conexao.query(`SELECT a.nome,b.id_pedido,c.descricao FROM usuario a, pedido b, forma_pagamento c WHERE a.id_usuario = b.id_usuario`, callback)
+    return new Promise((resolve,rejects)=>{
+        this._conexao.query(`SELECT a.nome,b.id_pedido,c.descricao FROM usuario a, pedido b, forma_pagamento c WHERE a.id_usuario = b.id_usuario and id_status = 2`,function(error,result){
+            console.log(error)
+            resolve(result)
+        })
+    })
 }
 
-Admin.prototype.concluirCompra = function (idUsuario,idPedido,callback) {
-    this._conexao.query(`update pedido set id_usuario = ${idUsuario},id_status = 3, `, callback)
+Admin.prototype.concluirCompra = function (idPedido,callback) {
+    return new Promise((resolve,rejects)=>{
+        this._conexao.query(`update pedido set id_status = 3 where id_pedido = ${idPedido}`,function(error,result){
+            console.log(error)
+            resolve(result)
+        })
+    })
 }
 
+Admin.prototype.cancelarCompra = function (idPedido,callback) {
+    return new Promise((resolve,rejects)=>{
+        this._conexao.query(`update pedido set id_status = 4 where id_pedido = ${idPedido}`,function(error,result){
+            console.log(error)
+            resolve(result)
+        })
+    })
+}
+
+Admin.prototype.historico = function (idPedido,callback) {
+    return new Promise((resolve,rejects)=>{
+        this._conexao.query(`SELECT a.nome,b.id_pedido,c.descricao FROM usuario a, pedido b, forma_pagamento c `,function(error,result){
+            resolve(result)
+        })
+    })
+}
 
 module.exports = function () {
     return Admin;

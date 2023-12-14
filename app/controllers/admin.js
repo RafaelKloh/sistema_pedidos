@@ -100,8 +100,8 @@ module.exports.logout = async function (app, req, res) {
     const idUsuario = req.session.id_usuario
     const selectPedidoAberto = await modelAdmin.selectPedidoAberto(idUsuario)
 
-    if(selectPedidoAberto.length > 0){
-     await modelAdmin.cancelarPedido(idUsuario)
+    if (selectPedidoAberto.length > 0) {
+        await modelAdmin.cancelarPedido(idUsuario)
     }
     req.session.destroy()
     res.redirect('/')
@@ -251,34 +251,71 @@ module.exports.excluirProduto = function (app, req, res) {
     })
 }
 
-module.exports.listaPedidosAbertos = function (app, req, res) {
-    if(req.session.id_usuario == undefined){
+module.exports.listaPedidosAbertos = async function (app, req, res) {
+    if (req.session.id_usuario == undefined) {
         res.redirect('/')
         return
     }
     const conexao = app.config.conexao
     const modelAdmin = new app.app.models.modelAdmin(conexao)
-    
-    modelAdmin.listaPedidosAbertos( function (error, result) {
 
-        res.render('admin/listaPedidosAbertos', { erros: {}, pedidos: result })
-    })
+    const result = await modelAdmin.listaPedidosAbertos()
+    res.render('admin/listaPedidosAbertos', { erros: {}, pedidos: result })
 }
 
-module.exports.concluirCompra = function (app, req, res) {
-    if(req.session.id_usuario == undefined){
+module.exports.concluirCompra = async function (app, req, res) {
+    if (req.session.id_usuario == undefined) {
         res.redirect('/')
         return
     }
 
     const conexao = app.config.conexao
     const modelAdmin = new app.app.models.modelAdmin(conexao)
-    const idUsuario = req.session.id_usuario
     const idPedido = req.body.id
-    
-    modelAdmin.concluirCompra(idUsuario,idPedido, function (error, result) {
-        res.render('admin/listaPedidosAbertos', { erros: {}, pedidos: result })
-    })
+
+    await modelAdmin.concluirCompra(idPedido)
+    const result = await modelAdmin.listaPedidosAbertos()
+    res.render('admin/listaPedidosAbertos', { erros: {}, pedidos: result })
+
+}
+
+module.exports.cancelarCompra = async function (app, req, res) {
+    if (req.session.id_usuario == undefined) {
+        res.redirect('/')
+        return
+    }
+
+    const conexao = app.config.conexao
+    const modelAdmin = new app.app.models.modelAdmin(conexao)
+    const idPedido = req.body.id
+
+    await modelAdmin.cancelarCompra(idPedido)
+    const result = await modelAdmin.listaPedidosAbertos()
+    res.render('admin/listaPedidosAbertos', { erros: {}, pedidos: result })
+
+}
+
+module.exports.historicoPedidos = async function (app, req, res) {
+    if (req.session.id_usuario == undefined) {
+        res.redirect('/')
+        return
+    }
+    const conexao = app.config.conexao
+    const modelAdmin = new app.app.models.modelAdmin(conexao)
+    const result = await modelAdmin.historico()
+    res.render('admin/historicoPedidos', { erros: {}, historico: result })
+}
+
+module.exports.descricaoHistorico = async function (app, req, res) {
+    if (req.session.id_usuario == undefined) {
+        res.redirect('/')
+        return
+    }
+    const conexao = app.config.conexao
+    const modelAdmin = new app.app.models.modelAdmin(conexao)
+    const idPedido = req.body.id
+    const result = await modelAdmin.historico()
+    res.render('admin/historicoPedidos', { erros: {}, historico: result })
 }
 
 

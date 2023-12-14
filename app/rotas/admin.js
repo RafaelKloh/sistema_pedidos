@@ -53,4 +53,13 @@ module.exports = function (app) {
     app.post('/admin/concluirCompra',function(req,res){
         app.app.controllers.admin.concluirCompra(app,req,res)
     })
+    app.post('/admin/cancelarCompra',function(req,res){
+        app.app.controllers.admin.cancelarCompra(app,req,res)
+    })
+    app.get('/historicoPedidos',function(req,res){
+        app.app.controllers.admin.historicoPedidos(app,req,res)
+    })
+    app.post('/admin/descricaoHistorico',function(req,res){
+        app.app.controllers.admin.descricaoHistorico(app,req,res)
+    })
 }
