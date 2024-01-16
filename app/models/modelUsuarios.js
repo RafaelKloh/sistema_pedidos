@@ -22,7 +22,7 @@ Usuario.prototype.getUsuarioById = function (id, callback) {
 }
 
 Usuario.prototype.editarUsuario = function (dados, idUsuario, callback) {
-    this._conexao.query(`update usuario set nome = '${dados.nome}', email = '${dados.email}' where id = ${idUsuario}`, callback)
+    this._conexao.query(`update usuario set nome = '${dados.nome}', email = '${dados.email}' where id_usuario = ${idUsuario}`, callback)
 }
 
 Usuario.prototype.selectProdutos = function (callback) {
@@ -37,7 +37,7 @@ Usuario.prototype.salvarEditarSenha = function (dados, idUsuario) {
         const senha = this._crypto.createHash('md5').update(dados.senha).digest('hex')
         this._conexao.query(`update usuario set senha = '${senha}' where id_usuario = ${idUsuario}`, function (error, result) {
             resolve(result)
-            console.log(error)
+          
         })
     })
 }

@@ -75,7 +75,7 @@ module.exports.validar = function (app, req, res) {
             else {
                 req.session.id_tipo_usuario = result[0].id_tipo_usuario
                 req.session.id_usuario = result[0].id_usuario
-                console.log(req.session.id_tipo_usuario)
+               
                 if (result[0].id_tipo_usuario == 1) {
                     res.render('usuarios/menu', { erros: {}, usuario: {} })
                 }
@@ -125,9 +125,8 @@ module.exports.salvar = function (app, req, res) {
     req.assert('email', 'Voce deve preencher o campo email').notEmpty()
 
     modelUsuarios.editarUsuario(dados, idUsuario, function (error, result) {
+
         res.render('usuarios/menu', { erros: {}, usuario: dados })
-        req.session.id_usuario = result[0].id_usuario
-        console.log(dados, req.session.id_usuario)
     })
 }
 
@@ -166,7 +165,7 @@ module.exports.addCarrinho = async function (app, req, res) {
     const idUsuario = req.session.id_usuario
 
     let pedidoAberto = await modelAdmin.selectPedidoAberto(idUsuario)
-    console.table(pedidoAberto)
+ 
 
 
     if (pedidoAberto.length <= 0) {
@@ -198,7 +197,7 @@ module.exports.RenderCarrinho = async function (app, req, res) {
     const idUsuario = req.session.id_usuario
 
     let pedidoAberto = await modelAdmin.selectPedidoAberto(idUsuario)
-    console.table(pedidoAberto)
+  
 
     if (pedidoAberto.length <= 0) {
         const erros = [{ msg: "Não existe o pedido" }]
@@ -207,6 +206,7 @@ module.exports.RenderCarrinho = async function (app, req, res) {
     }
 
     let valorTotal = 0
+
     const idPedido = pedidoAberto[0].id_pedido
 
     const selectProdutosCarrinho = await modelAdmin.selectProdutosCarrinho(idPedido)
@@ -214,7 +214,7 @@ module.exports.RenderCarrinho = async function (app, req, res) {
         selectProdutosCarrinho[i]["produto"] = await modelAdmin.ProdutosSelect(selectProdutosCarrinho[i].id_produto)
         valorTotal += selectProdutosCarrinho[i].quantidade * selectProdutosCarrinho[i]["produto"][0].preco
     }
-    console.table(selectProdutosCarrinho)
+  
 
     res.render('usuarios/listaCarrinho', { erros: {}, produtos: selectProdutosCarrinho, valorTotal: valorTotal.toFixed(2) })
 }
@@ -315,12 +315,13 @@ module.exports.validarPedido = async function (app, req, res) {
     let valorTotal = 0
     const idPedido = pedidoAberto[0].id_pedido
 
-    //const selectFormaPagamento = await modelAdmin.selectFormaPagamento()
+    await modelAdmin.updateStatus(idPedido)
     const selectProdutosCarrinho = await modelAdmin.selectProdutosCarrinho(idPedido)
     for (let i = 0; i < selectProdutosCarrinho.length; i++) {
         selectProdutosCarrinho[i]["produto"] = await modelAdmin.ProdutosSelect(selectProdutosCarrinho[i].id_produto)
         valorTotal += selectProdutosCarrinho[i].quantidade * selectProdutosCarrinho[i]["produto"][0].preco
     }
+    
     res.render('usuarios/menu', { erros: {}, usuario: {} })
 }
 

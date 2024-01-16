@@ -14,7 +14,7 @@ module.exports = function (app) {
     app.get('/editarUsuario', function (req, res) {
         app.app.controllers.usuarios.editarUsuario(app, req, res)
     })
-    app.post('/usuarios/editarUsuario', function (req, res) {
+    app.post('/usuarios/salvarEditarUsuario', function (req, res) {
         app.app.controllers.usuarios.salvar(app, req, res)
     })
     app.get('/usuario/listaProdutos', function (req, res) {

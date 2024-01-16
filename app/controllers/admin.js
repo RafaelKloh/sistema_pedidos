@@ -86,7 +86,7 @@ module.exports.editarUsuario = function (app, req, res) {
 
     modelAdmin.getTipoUsuario(function (error, tipos_result) {
         modelAdmin.selectUsuario(dados.id, function (error, usuario_result) {
-            console.log(dados.id)
+            
             res.render('admin/editarUsuarios', { erros: {}, usuario: usuario_result, tipos: tipos_result })
         })
     })
@@ -130,7 +130,7 @@ module.exports.editarSenhaUsuario = function (app, req, res) {
     const conexao = app.config.conexao
     const modelAdmin = new app.app.models.modelAdmin(conexao)
     modelAdmin.selectUsuario(dados.id, function (error, usuario_result) {
-        console.log(dados.id)
+       
         res.render('admin/editarSenhaUsuario', { erros: {}, usuario: usuario_result })
     })
 }

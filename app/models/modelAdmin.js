@@ -58,7 +58,7 @@ Admin.prototype.excluirProduto = function (dados,callback) {
 Admin.prototype.selectPedidoAberto = function(idUsuario){
     return new Promise((resolve,rejects)=>{
         this._conexao.query(`select * from pedido where id_status=1 and id_usuario=${idUsuario}`,function(error,result){
-            console.log(error)
+     
             resolve(result)
         })
     })
@@ -91,15 +91,16 @@ Admin.prototype.addCarrinho = function(pedido,idProduto){
 Admin.prototype.selectCarrinho = function(pedido,idProduto){
     return new Promise((resolve,rejects)=>{
         this._conexao.query(`select * from carrinho where id_pedido = ${pedido}`,function(error,result){
-            console.log(error)
+          
             resolve(result)
         })
     })
 }
 
-Admin.prototype.selectProdutosCarrinho = function(pedido,idProduto){
+Admin.prototype.selectProdutosCarrinho = function(pedido){
     return new Promise((resolve,rejects)=>{
         this._conexao.query(`select * from carrinho where id_pedido = ${pedido}`,function(error,result){
+      
             resolve(result)
         })
     })
@@ -124,7 +125,7 @@ Admin.prototype.constaCarrinho = function(pedido,idProduto){
 Admin.prototype.updateQuantidade = function(pedido,idProduto){
     return new Promise((resolve,rejects)=>{
         this._conexao.query(`update carrinho set quantidade = quantidade + 1 where id_pedido = ${pedido} and id_produto = ${idProduto}`,function(error,result){
-            console.log(error)
+          
             resolve(result)
         })
     })
@@ -133,7 +134,7 @@ Admin.prototype.updateQuantidade = function(pedido,idProduto){
 Admin.prototype.salvarEditCarrinho = function(idPedido,idProduto,quantidade){
     return new Promise((resolve,rejects)=>{
         this._conexao.query(`update carrinho set quantidade = ${quantidade} where id_pedido = ${idPedido} and id_produto = ${idProduto}`,function(error,result){
-            console.log(error)
+         
             resolve(result)
         })
     })
@@ -142,7 +143,7 @@ Admin.prototype.salvarEditCarrinho = function(idPedido,idProduto,quantidade){
 Admin.prototype.excluirCarrinho = function(idPedido,idProduto){
     return new Promise((resolve,rejects)=>{
         this._conexao.query(`delete from carrinho where id_pedido = ${idPedido} and id_produto = ${idProduto}`,function(error,result){
-            console.log(error)
+          
             resolve(result)
         })
     })
@@ -159,7 +160,7 @@ Admin.prototype.finalizarPedido = function(idPedido,formaPagamento){
 Admin.prototype.selectFormaPagamento = function(idUsuario,formaPagamento){
     return new Promise((resolve,rejects)=>{
         this._conexao.query(`select * from forma_pagamento`,function(error,result){
-            console.log(error)
+           
             resolve(result)
         })
     })
@@ -168,7 +169,6 @@ Admin.prototype.selectFormaPagamento = function(idUsuario,formaPagamento){
 Admin.prototype.listaPedidosAbertos = function (callback) {
     return new Promise((resolve,rejects)=>{
         this._conexao.query(`SELECT a.nome,b.id_pedido,c.descricao FROM usuario a, pedido b, forma_pagamento c WHERE a.id_usuario = b.id_usuario and id_status = 2`,function(error,result){
-            console.log(error)
             resolve(result)
         })
     })
@@ -177,7 +177,14 @@ Admin.prototype.listaPedidosAbertos = function (callback) {
 Admin.prototype.concluirCompra = function (idPedido,callback) {
     return new Promise((resolve,rejects)=>{
         this._conexao.query(`update pedido set id_status = 3 where id_pedido = ${idPedido}`,function(error,result){
-            console.log(error)
+            resolve(result)
+        })
+    })
+}
+
+Admin.prototype.updateStatus = function (idPedido,callback) {
+    return new Promise((resolve,rejects)=>{
+        this._conexao.query(`update pedido set id_status = 2 where id_pedido = ${idPedido}`,function(error,result){
             resolve(result)
         })
     })
@@ -186,7 +193,7 @@ Admin.prototype.concluirCompra = function (idPedido,callback) {
 Admin.prototype.cancelarCompra = function (idPedido,callback) {
     return new Promise((resolve,rejects)=>{
         this._conexao.query(`update pedido set id_status = 4 where id_pedido = ${idPedido}`,function(error,result){
-            console.log(error)
+          
             resolve(result)
         })
     })
