@@ -7,7 +7,8 @@
     <link rel="stylesheet" type="text/css" href="../../public/css/style.css">
 </head>
 <body>
-    <h1>Cadastro de usuario</h1>
+    <div id="fundo-cadastro-usuario">
+    <h1 class="titulo">Cadastro de usuario</h1>
     
         
     <% if (erros){%>
@@ -18,7 +19,7 @@
         </ul>
     <%}%>
 
-    <form action="/usuarios/cadastrar" method="post">
+    <form action="/usuarios/cadastrar" method="post" id="cadastro">
         <label>Nome</label>
         <br>
         <input type="text" name="nome" value="<%=usuario.nome%>">
@@ -29,13 +30,15 @@
         <br>
         <label>Senha</label>
         <br>
-        <input type="text" name="senha" value="<%=usuario.senha%>">
+        <input type="password" name="senha" value="<%=usuario.senha%>">
         <br>
         <label>Confirmar senha</label>
         <br>
-        <input type="text" name="confirmarSenha" value="<%=usuario.confirmarSenha%>">
+        <input type="password" name="confirmarSenha" value="<%=usuario.confirmarSenha%>">
         <br><br>
         <input type="submit" value="enviar">
     </form>
+    </div>
+</div>
 </body>
 </html>

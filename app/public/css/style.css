@@ -8,8 +8,11 @@
     --cinza200:#131313; 
 }
 
-body{
-    width: 100%;
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 100vh;
     background-color: var(--cinza100);
 }
@@ -50,6 +53,7 @@ form
 a 
 {
  color: #f3f3df;
+ padding: 30px;
 }
 ul
 {
@@ -57,6 +61,24 @@ ul
 display: flex;
 justify-content: center;
 
+}
+
+#fundo-login{
+    background-color: #f0f0f0;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    width: 15%;
+    height: 60%;
+}
+
+#fundo-cadastro-usuario{
+    background-color: #f0f0f0;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    width: 15%;
+    height: 60%;
 }
 
 #login{
@@ -70,7 +92,33 @@ justify-content: center;
 }
 a#cadastro{
     position: absolute;
+    position: relative;
+    top: 35%;
 }
 a:any-link{
-    color: #ffbe0a;
+    color: #d39c07;
+}
+
+.titulo{
+    bottom: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: initial;
+}
+
+h1.titulo{
+    bottom: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}
+
+.subtitulo{
+    bottom: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
 }

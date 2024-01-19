@@ -303,6 +303,7 @@ module.exports.historicoPedidos = async function (app, req, res) {
     const conexao = app.config.conexao
     const modelAdmin = new app.app.models.modelAdmin(conexao)
     const result = await modelAdmin.historico()
+    console.log(result)
     res.render('admin/historicoPedidos', { erros: {}, historico: result })
 }
 
@@ -314,8 +315,8 @@ module.exports.descricaoHistorico = async function (app, req, res) {
     const conexao = app.config.conexao
     const modelAdmin = new app.app.models.modelAdmin(conexao)
     const idPedido = req.body.id
-    const result = await modelAdmin.historico()
-    res.render('admin/historicoPedidos', { erros: {}, historico: result })
+    const result = await modelAdmin.descricaoHistorico(idPedido)
+    res.render('admin/descricaoHistorico', { erros: {}, descricaoHistorico: result })
 }
 
 

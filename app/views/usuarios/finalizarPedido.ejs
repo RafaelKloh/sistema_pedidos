@@ -43,7 +43,7 @@
         <form action="/validarPedido" method="post">
             <select name="idFormaPagamento">
                 <%for (let i = 0; i < formaPagamento.length; i++) { %>
-                    <option value="<%=formaPagamento[i].id_forma_pagamento %>"><%=formaPagamento[i].descricao%></option>
+                    <option value="<%=formaPagamento[i].id_forma_pagamento %>" name="idFormaPagamento"><%=formaPagamento[i].descricao%></option>
                 <% } %>
                 </select>
                 <br>

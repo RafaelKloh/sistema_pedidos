@@ -165,6 +165,7 @@ module.exports.addCarrinho = async function (app, req, res) {
     const idUsuario = req.session.id_usuario
 
     let pedidoAberto = await modelAdmin.selectPedidoAberto(idUsuario)
+
  
 
 
@@ -314,8 +315,9 @@ module.exports.validarPedido = async function (app, req, res) {
     let pedidoAberto = await modelAdmin.selectPedidoAberto(idUsuario)
     let valorTotal = 0
     const idPedido = pedidoAberto[0].id_pedido
+    const idFormaPagamento = req.body.idFormaPagamento
 
-    await modelAdmin.updateStatus(idPedido)
+    await modelAdmin.updateStatus(idPedido,idFormaPagamento)
     const selectProdutosCarrinho = await modelAdmin.selectProdutosCarrinho(idPedido)
     for (let i = 0; i < selectProdutosCarrinho.length; i++) {
         selectProdutosCarrinho[i]["produto"] = await modelAdmin.ProdutosSelect(selectProdutosCarrinho[i].id_produto)

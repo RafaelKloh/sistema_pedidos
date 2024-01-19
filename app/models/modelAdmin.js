@@ -168,7 +168,12 @@ Admin.prototype.selectFormaPagamento = function(idUsuario,formaPagamento){
 
 Admin.prototype.listaPedidosAbertos = function (callback) {
     return new Promise((resolve,rejects)=>{
-        this._conexao.query(`SELECT a.nome,b.id_pedido,c.descricao FROM usuario a, pedido b, forma_pagamento c WHERE a.id_usuario = b.id_usuario and id_status = 2`,function(error,result){
+        this._conexao.query(`
+        SELECT u.nome, p.id_pedido, fp.descricao
+        FROM usuario u
+        JOIN pedido p ON u.id_usuario = p.id_usuario
+        JOIN forma_pagamento fp ON p.id_forma_pagamento = fp.id_forma_pagamento
+        WHERE p.id_status = 2;`,function(error,result){
             resolve(result)
         })
     })
@@ -182,9 +187,9 @@ Admin.prototype.concluirCompra = function (idPedido,callback) {
     })
 }
 
-Admin.prototype.updateStatus = function (idPedido,callback) {
+Admin.prototype.updateStatus = function (idPedido,idFormaPagamento,callback) {
     return new Promise((resolve,rejects)=>{
-        this._conexao.query(`update pedido set id_status = 2 where id_pedido = ${idPedido}`,function(error,result){
+        this._conexao.query(`update pedido set id_status = 2, id_forma_pagamento = ${idFormaPagamento} where id_pedido = ${idPedido}`,function(error,result){
             resolve(result)
         })
     })
@@ -201,7 +206,35 @@ Admin.prototype.cancelarCompra = function (idPedido,callback) {
 
 Admin.prototype.historico = function (idPedido,callback) {
     return new Promise((resolve,rejects)=>{
-        this._conexao.query(`SELECT a.nome,b.id_pedido,c.descricao FROM usuario a, pedido b, forma_pagamento c `,function(error,result){
+        this._conexao.query(`SELECT u.nome,u.id_usuario, p.id_pedido, fp.descricao
+        FROM usuario u
+        JOIN pedido p ON u.id_usuario = p.id_usuario
+        LEFT JOIN forma_pagamento fp ON p.id_forma_pagamento = fp.id_forma_pagamento;`,function(error,result){
+            resolve(result)
+        })
+    })
+}
+
+
+Admin.prototype.descricaoHistorico = function (idPedido,callback) {
+    return new Promise((resolve,rejects)=>{
+        this._conexao.query(`SELECT
+        u.nome AS nome_usuario,
+        p.id_pedido,
+        fp.descricao AS forma_pagamento,
+        pr.descricao AS nome_produto,
+        c.quantidade
+    FROM
+        usuario u
+    JOIN
+        pedido p ON u.id_usuario = p.id_usuario
+    LEFT JOIN
+        forma_pagamento fp ON p.id_forma_pagamento = fp.id_forma_pagamento
+    LEFT JOIN
+        carrinho c ON p.id_pedido = c.id_pedido
+    LEFT JOIN
+        produto pr ON c.id_produto = pr.id_produto
+        WHERE p.id_pedido = ${idPedido};`,function(error,result){
             resolve(result)
         })
     })
