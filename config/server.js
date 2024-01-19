@@ -4,18 +4,28 @@ module.exports = function () {
     const bodyparser = require('body-parser')
     const expressValidator = require('express-validator')
     const expressSession = require('express-session')
+    const mime = require('mime')
     const app = express();
 
     app.set('view engine', 'ejs')
     app.set('views','./app/views')
 
-    app.use(bodyparser.urlencoded({extended :true}))
+    app.use(bodyparser.urlencoded({extended: true}))
     app.use(expressValidator())
-    app.use(express.static('app/public'))
+    
+    // Serve static files with correct MIME type
+    app.use('/public', express.static('app/public', {
+        setHeaders: (res, path) => {
+            if (path.startsWith('/public/css')) {
+                res.setHeader('Content-Type', mime.getType(path));
+            }
+        }
+    }));
+
     app.use(expressSession({
-        secret:'qualquercoisa',
-        resave:false,
-        saveUninitialized:false
+        secret: 'qualquercoisa',
+        resave: false,
+        saveUninitialized: false
     }))
 
     consign()

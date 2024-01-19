@@ -1,0 +1,76 @@
+:root{
+    --amarele200:#ffbe0a;
+    --amarelo100:#83f023;
+    --laranja:#e94e18;
+    --laranja100:#d0330c;
+    --laranja200:#d0330c;
+    --cinza100:#131313;
+    --cinza200:#131313; 
+}
+
+body{
+    width: 100%;
+    height: 100vh;
+    background-color: var(--cinza100);
+}
+
+h1{
+    color: var(--amarele200);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    height: 63px;
+    font-size: 39px;
+    
+}
+
+table
+{
+    height: 60px;
+    font-size: 21px;
+}
+
+th
+{
+  color: #d0330c;
+}
+
+td
+{
+  color: #f0f0bc;
+}
+
+form
+{
+    height: 60px;
+    font-size: 21px;
+    color: var(--laranja100);
+}
+
+a 
+{
+ color: #f3f3df;
+}
+ul
+{
+  list-style: none;
+display: flex;
+justify-content: center;
+
+}
+
+#login{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+#btn-login{
+    width: 100%;
+}
+a#cadastro{
+    position: absolute;
+}
+a:any-link{
+    color: #ffbe0a;
+}

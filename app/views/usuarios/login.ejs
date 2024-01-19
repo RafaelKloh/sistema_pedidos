@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="../../public/style.css">
+    <link rel="stylesheet" type="text/css" href="../../public/css/style.css">
 </head>
 <body>
-    <h1>Login</h1>
+    
+
+   
+    <h1 id="login">Login</h1>
     <% if (erros){%>
         <ul>
             <% for (let i =0; i <erros.length;i++) { %>
@@ -15,7 +18,7 @@
                 <% }%>
         </ul>
     <%}%>
-
+    <div id="login">
     <form action="/usuarios/login" method="post">
         <label>Email</label>
         <br>
@@ -26,8 +29,10 @@
         <input type="password" name="senha" value="<%=usuario.senha%>">
         <br>
         <br>
-        <input type="submit" value="Entrar">
+        <input type="submit" value="Entrar" id="btn-login">
     </form>
-    <a href="/usuarios/cadastro">Cadastre-se</a>
+</div>
+    <a href="/usuarios/cadastro" id="cadastro">Cadastre-se</a>
+
 </body>
 </html>
