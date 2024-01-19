@@ -8,6 +8,7 @@
 </head>
 <body>
     <%- include('../../public/menuAdmin.html') %>
+    <div id="lista-usuario-admin">
     <h1>Lista de produtos</h1>
 
     <table>
@@ -22,20 +23,21 @@
                 <td><%= usuario[i].email %></td>
                 <td><form action="/admin/editarUsuario" method="post">
                     <input type="hidden" value=<%=usuario[i].id_usuario%> name="id">
-                    <input type="submit" value="Edit">
+                    <input type="submit" value="Editar">
                 </form></td>
                 <td><form action="/admin/editarSenhaUsuario" method="post">
                     <input type="hidden" value=<%=usuario[i].id_usuario%> name="id">
-                    <input type="submit" value="Edit password">
+                    <input type="submit" value="Editar senha">
                 </form></td>
                 <td><form action="/admin/excluirUsuario" method="post">
                     <input type="hidden" value=<%=usuario[i].id_usuario%> name="id">
-                    <input type="submit" value="Del">
+                    <input type="submit" value="Deletar">
                 </form></td>
             </tr>
             <%
         }
         %>
     </table>
+</div>
 </body>
 </html>

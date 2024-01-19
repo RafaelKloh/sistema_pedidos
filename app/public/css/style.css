@@ -63,6 +63,16 @@ justify-content: center;
 
 }
 
+nav{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 90%;
+}
+
+
+
 #fundo-login{
     background-color: #f0f0f0;
     padding: 25px;
@@ -107,7 +117,14 @@ a:any-link{
     position: initial;
 }
 
-h1.titulo{
+.titulo{
+    bottom: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#titulo-cadastro-user{
     bottom: 70%;
     display: flex;
     align-items: center;
@@ -115,10 +132,20 @@ h1.titulo{
     position: absolute;
 }
 
-.subtitulo{
+#subtitulo{
     bottom: 60%;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
+}
+
+#cadastro-admin{
+    bottom: 20%;
+    position: relative;
+}
+
+#lista-usuario-admin{
+    position: relative;
+    top: 60%;
 }
